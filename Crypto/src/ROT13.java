@@ -4,29 +4,56 @@ import static java.lang.Character.toLowerCase;
 
 public class ROT13  {
 
+    private Character cs;
+    private Character cf;
+    private Integer shift;
+
+
     ROT13(Character cs, Character cf) {
+        this.cs = cs;
+        this.cf = cf;
+        this.shift = cf - cs;
     }
 
     ROT13() {
     }
 
-
     public String crypt(String text) throws UnsupportedOperationException {
+        StringBuilder stringBuilder = new StringBuilder();
 
-        return "";
+        for (int i = 0; i < text.length(); i++) {
+            char ch = text.charAt(i);
+
+            if (ch >= 'a' && ch <= 'm') {
+                ch += this.shift;
+            } else if (ch >= 'A' && ch <= 'M') {
+                ch += this.shift;
+            } else if (ch >= 'n' && ch <= 'z'){
+                ch -= 26 - this.shift;
+            } else if (ch >= 'N' && ch <= 'z') {
+                ch -= 26 - this.shift;
+            }
+
+            stringBuilder.append(ch);
+        }
+
+        return stringBuilder.toString();
     }
 
-    public String encrypt(String text) {
-        return text;
+    public String encryptAndDecrypt(String text) {
+        return crypt(text);
     }
 
-    public String decrypt(String text) {
-        return text;
-    }
 
     public static String rotate(String s, Character c) {
+        StringBuilder stringBuilder = new StringBuilder();
 
-        return "";
+        int ch = s.indexOf(c);
+        String cutString = s.substring(ch);
+        String cutFront = s.substring(0,ch);
+
+        stringBuilder.append(cutString).append(cutFront);
+
+        return stringBuilder.toString();
     }
-
 }
