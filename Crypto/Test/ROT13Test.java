@@ -1,5 +1,7 @@
 import org.junit.Test;
 
+import java.io.*;
+
 import static org.junit.Assert.*;
 
 public class ROT13Test {
@@ -87,5 +89,28 @@ public class ROT13Test {
         // Then
         assertTrue(actual.equals(Q1));
     }
+
+
+    @Test
+    public void testReaderWriter() throws IOException {
+        ROT13 rot13 = new ROT13();
+        File fileTxt = new File("sonnet18.txt");
+        File fileEnc = new File("sonnet18.enc");
+        File fileDec = new File("sonnet18.dec");
+        BufferedReader originalFile = new BufferedReader(new FileReader(fileTxt));
+        BufferedReader decryptFile = new BufferedReader(new FileReader(fileDec));
+
+        rot13.encryptFile(fileTxt,fileEnc);
+        rot13.encryptFile(fileEnc,fileDec);
+
+        String originalLine;
+        String decryptLine;
+
+        while ((originalLine = originalFile.readLine()) != null) {
+            decryptLine = decryptFile.readLine();
+            assertEquals(originalLine, decryptLine);
+        }
+    }
+
 
 }
